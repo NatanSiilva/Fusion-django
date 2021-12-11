@@ -2,26 +2,25 @@ from django import forms
 from django.core.mail.message import EmailMessage
 
 
-class ContactForm(forms.Form):
-    name = forms.CharField(label='Nome', max_length=100)
-    email = forms.EmailField(label='E-mail')
-    subject = forms.CharField(label='Assunto', max_length=100)
-    message = forms.CharField(label='Mensagem', widget=forms.Textarea)
+class ContatoForm(forms.Form):
+    nome = forms.CharField(label='Nome', max_length=100)
+    email = forms.EmailField(label='E-mail', max_length=100)
+    assunto = forms.CharField(label='Assunto', max_length=100)
+    mensagem = forms.CharField(label='Mensagem', widget=forms.Textarea())
 
     def send_mail(self):
-        name = self.cleaned_data['name']
+        nome = self.cleaned_data['nome']
         email = self.cleaned_data['email']
-        subject = self.cleaned_data['subject']
-        message = self.cleaned_data['message']
+        assunto = self.cleaned_data['assunto']
+        mensagem = self.cleaned_data['mensagem']
 
-        conteudo = f'Nome: {name}\nE-mail: {email}\nAssunto: {subject}\nMensagem: {message}'
+        conteudo = f'Nome: {nome}\nE-mail: {email}\nAssunto: {assunto}\nMensagem: {mensagem}'
 
         mail = EmailMessage(
-            subject=subject,
+            subject=assunto,
             body=conteudo,
             from_email='contato@fusion.com.br',
-            to=['contato@fusion.com', ],
+            to=['contato@fusion.com.br',],
             headers={'Reply-To': email}
         )
-
         mail.send()

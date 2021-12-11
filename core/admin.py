@@ -1,19 +1,19 @@
 from django.contrib import admin
-from .models import Position, Employee, Service
 
-@admin.register(Position)
-class PositionAdmin(admin.ModelAdmin):
-    list_display = ('position', 'active', 'updated_at')
+from .models import Cargo, Servico, Funcionario
 
 
-@admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('service', 'icone', 'active', 'updated_at')
+@admin.register(Cargo)
+class CargoAdmin(admin.ModelAdmin):
+    list_display = ('cargo', 'ativo', 'modificado')
 
-@admin.register(Employee)
-class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'position', 'active', 'updated_at')
-    list_filter = ('position',)
-    list_editable = ('active',)
-    search_fields = ('name',)
-    
+
+@admin.register(Servico)
+class ServicoAdmin(admin.ModelAdmin):
+    list_display = ('servico', 'icone', 'ativo', 'modificado')
+
+
+@admin.register(Funcionario)
+class FuncionarioAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'cargo', 'ativo', 'modificado')
+
