@@ -1,5 +1,6 @@
 from django.db import models
 from stdimage.models import StdImageField
+import uuid
 
 ICONE_CHOICES = (
     ('lni-cog', 'Engrenagem'),
@@ -16,6 +17,12 @@ ICONE_CHOICES = (
 )
 
 
+def get_file_path(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+    return filename
+
+
 class Base(models.Model):
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
     updated_at = models.DateTimeField('Atualizado em', auto_now=True)
@@ -25,7 +32,7 @@ class Base(models.Model):
         abstract = True
 
 
-class service(Base):
+class Service(Base):
     service = models.CharField(verbose_name='Serviço', max_length=100)
     description = models.TextField(verbose_name='Descrição', max_length=200)
     icone = models.CharField('Ícone', max_length=20, choices=ICONE_CHOICES)
@@ -53,7 +60,7 @@ class Employee(Base):
     name = models.CharField(verbose_name='Nome', max_length=100)
     position = models.ForeignKey(Position, verbose_name='Cargo', on_delete=models.CASCADE)
     bio = models.TextField(verbose_name='Bio', max_length=200)
-    imagem = StdImageField(verbose_name='Imagem', upload_to='team', variations={'thumb': {'width': 480, 'height': 480, 'crop': True}})
+    imagem = StdImageField(verbose_name='Imagem', upload_to=get_file_path, variations={'thumb': {'width': 480, 'height': 480, 'crop': True}})
     facebook = models.CharField(verbose_name='Facebook', max_length=100, default='#')
     twitter = models.CharField(verbose_name='Twitter', max_length=100, default='#')
     instagram = models.CharField(verbose_name='Instagram', max_length=100, default='#')
