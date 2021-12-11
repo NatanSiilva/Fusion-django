@@ -1,1 +1,13 @@
 venv
+
+__pycache__
+
+*.*~
+
+*.pyc
+
+.env
+
+.idea
+
+template/*
